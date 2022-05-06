@@ -1,0 +1,1 @@
+Assets/Plugins/FMOD/platforms/** filter=lfs diff=lfs merge=lfs -text
