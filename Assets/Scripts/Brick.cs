@@ -13,7 +13,7 @@ public class Brick : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private SpriteRenderer _spriteRenderer;
     private int points;
-    private GameManager _gameManager;
+    public LevelManager _levelManager;
 
     Camera _mainCamera;
 
@@ -24,9 +24,11 @@ public class Brick : MonoBehaviour
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         points = pointsPerHP * health;
         _mainCamera = Camera.main;
+        _levelManager = FindObjectOfType<LevelManager>();
 
         _spriteRenderer.color = brickColors.color[health];
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -34,18 +36,17 @@ public class Brick : MonoBehaviour
 
         _spriteRenderer.color = brickColors.color[health];
 
-        if (health < 1)
-        {
-            Die();
-        }
-
         Ball ball = collision.gameObject.GetComponent<Ball>();
         ball.Hit();
         _mainCamera.GetComponent<ScreenShake>().StartShake();
 
-
         _rigidBody.velocity = ball.GetVelocity() * -1f;
         _rigidBody.AddTorque(300);
+
+        if (health < 1)
+        {
+            Die();
+        }
     }
 
     private void Die()
@@ -53,6 +54,8 @@ public class Brick : MonoBehaviour
         _boxCollider.enabled = false;
         _rigidBody.bodyType = RigidbodyType2D.Dynamic;
         _rigidBody.gravityScale = 1;
+
+        _levelManager.BrickDestroyed();
 
         FindObjectOfType<GameManager>().AddToScore(points);
     }

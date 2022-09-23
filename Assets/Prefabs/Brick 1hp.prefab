@@ -149,3 +149,4 @@ MonoBehaviour:
   health: 1
   pointsPerHP: 10
   brickColors: {fileID: 11400000, guid: 8014d6e33d64e614db9e114d9332aafa, type: 2}
+  _levelManager: {fileID: 0}
