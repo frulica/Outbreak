@@ -33,6 +33,7 @@ public class Ball : MonoBehaviour
     public void Hit()
     {
         anim.Play("BallHit",0,0);
-        Debug.Log("HIT");
+        rigidbody.velocity = rigidbody.velocity.normalized * ballSpeed;
+        //Debug.Log("HIT");
     }
 }

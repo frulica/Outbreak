@@ -24,7 +24,10 @@ public class Paddle : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            rigidbody.MovePosition(rigidbody.position + (direction * speed) * Time.deltaTime);
+            Vector2 new_position = rigidbody.position + (direction * speed) * Time.deltaTime;
+            new_position.x = Mathf.Clamp(new_position.x, -42, 42);
+            
+            rigidbody.MovePosition(new_position);
         }
     }
 

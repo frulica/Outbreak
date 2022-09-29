@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public int level;
     TextMeshPro _scoreText;
 
+    public int score;
+    public int starting_lives;
+    private int lives;
+
     internal void SetupGame()
     {
         level = 1;
@@ -19,8 +23,7 @@ public class GameManager : MonoBehaviour
         lives = gameData.startingLives;
     }
 
-    public int score;
-    public int lives;
+
 
     private void Awake()
     {
@@ -35,6 +38,12 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
 
+        SetupGame();
+    }
+
+    internal int GetLives()
+    {
+        return lives;
     }
 
     public void AddToScore(int points) 
@@ -50,6 +59,16 @@ public class GameManager : MonoBehaviour
     internal void PlayerDead()
     {
         lives--;
+
+        if (lives == 0)
+        {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("GameOver");
     }
 
     public void NewLevel()

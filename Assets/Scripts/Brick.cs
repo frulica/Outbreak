@@ -15,6 +15,9 @@ public class Brick : MonoBehaviour
     private int points;
     public LevelManager _levelManager;
 
+    float timeLeft, elapsedTime;
+    public Color targetColor;
+
     Camera _mainCamera;
 
     private void Awake()
@@ -29,12 +32,20 @@ public class Brick : MonoBehaviour
         _spriteRenderer.color = brickColors.color[health];
     }
 
+    public IEnumerator FadeColor()
+    {
+        while (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+            _spriteRenderer.material.color = Color.Lerp(_spriteRenderer.material.color, targetColor, elapsedTime / timeLeft);
+            yield return null;
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         health -= 1;
-
-        _spriteRenderer.color = brickColors.color[health];
 
         Ball ball = collision.gameObject.GetComponent<Ball>();
         ball.Hit();
@@ -47,6 +58,10 @@ public class Brick : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            _spriteRenderer.color = brickColors.color[health];
+        }
     }
 
     private void Die()
@@ -57,6 +72,10 @@ public class Brick : MonoBehaviour
 
         _levelManager.BrickDestroyed();
 
+        timeLeft = 30f;
+        elapsedTime = 0f;
+        StartCoroutine(FadeColor());
+
         FindObjectOfType<GameManager>().AddToScore(points);
     }
 
@@ -64,4 +83,6 @@ public class Brick : MonoBehaviour
     {
         gameObject.GetComponent<SpriteRenderer>().color = brickColors.color[health];
     }
+
+
 }
