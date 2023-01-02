@@ -34,6 +34,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private void LoseLife()
+    {
+        GameObject livesContainer = GameObject.Find("Lives");
+
+        Paddle lastLife = transform.GetChild(transform.childCount -1).GetComponent<Paddle>() ;
+        lastLife.Die();
+    }
+
     internal void BrickDestroyed()
     {
         bricksLeft--;

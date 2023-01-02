@@ -53,11 +53,6 @@ public class Paddle : MonoBehaviour
     }
 
 
-    private void LateUpdate()
-    {
-        
-
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -79,5 +74,11 @@ public class Paddle : MonoBehaviour
             Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
             ball.rigidbody.velocity = rotation * Vector2.up * ball.ballSpeed;
         }
+    }
+
+    public void Die()
+    {
+        // TODO:
+        // play the "error" vfx, and dissapear the life paaddle placeholder
     }
 }
